@@ -49,3 +49,26 @@ class Solution:
             return -1
         else:
             return c_add
+        
+# Fastest solution:
+
+class Solution:
+    def minOperations(self, nums1: List[int], nums2: List[int], k: int) -> int:
+        #Edge case
+        if (k == 0) and (nums1 != nums2):
+            return -1
+        if nums1 == nums2:
+            return 0
+        #Res: Total ADD + SUBTRACT. 
+        #TMP: Total ADD - SUBTRACT
+        res, tmp = 0, 0 
+        for i in range(len(nums1)):
+            if (nums1[i] - nums2[i]) % k != 0: #Never get what you want by +- k
+                return -1
+            factor = (nums1[i] - nums2[i]) // k #If it does, save the factors (w & w/o sign)
+            tmp += factor
+            res += abs(factor)
+        if tmp == 0:
+            return res//2 #Divide by 2 to get the number of time BOTH add and sub in integer
+        return -1 #When add and sub are unequal
+
